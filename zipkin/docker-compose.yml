@@ -1,0 +1,6 @@
+version: "3.7"
+services:
+  zipkin-collector:
+    image: openzipkin/zipkin-slim:latest
+    ports:
+      - "9411:9411"

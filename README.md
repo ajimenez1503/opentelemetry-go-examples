@@ -12,3 +12,19 @@ cd fibonacci
 go run .
 cat traces.txt
 ```
+
+## Example 2 - Zipkin
+
+Send an example span to a Zipkin service.
+- Ref: https://github.com/open-telemetry/opentelemetry-go/tree/main/example/zipkin
+
+- Running:
+```
+docker-compose up --detach zipkin-collector
+ go run main.go
+```
+- Open zipkin with the trace writen http://localhost:9411/zipkin/traces/62da195c8008d818e14d5a70fed2fc54
+
+```
+docker-compose down
+```
