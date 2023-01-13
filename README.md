@@ -27,7 +27,7 @@ go run main.go
 ![alt text](img/zipkin-example.png "Zipkin")
 
 
-## Example 2 - Jaeger
+## Example 3 - Jaeger
 
 Send an example span to a Jaeger service.
 - Ref: https://github.com/open-telemetry/opentelemetry-go/tree/main/example/jaeger
@@ -49,3 +49,16 @@ go run main.go
 - Open Jaeger with the trace writen http://localhost:16686/trace/ec050c45678c972950e818fa88b36fad
 
 ![alt text](img/jaeger.png "Zipkin")
+
+## Example 4 - Prometheus
+
+Send metris to a Prometheus service.
+- Ref: https://github.com/open-telemetry/opentelemetry-go/tree/main/example/prometheus
+
+- Running:
+```
+go run main.go
+```
+- Open the metrics in Prometheus http://localhost:2223/metrics
+
+![alt text](img/prometheus.png "prometheus")
