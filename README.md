@@ -20,11 +20,7 @@ Send an example span to a Zipkin service.
 
 - Running:
 ```
-docker-compose up --detach zipkin-collector
- go run main.go
+docker run -p 9411:9411 openzipkin/zipkin
+go run main.go
 ```
 - Open zipkin with the trace writen http://localhost:9411/zipkin/traces/62da195c8008d818e14d5a70fed2fc54
-
-```
-docker-compose down
-```
