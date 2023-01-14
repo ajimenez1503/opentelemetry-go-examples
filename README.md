@@ -63,7 +63,7 @@ go run main.go
 
 ![alt text](img/prometheus.png "prometheus")
 
-## Example 5 - Opentelemetry colector
+## Example 5 - Opentelemetry colector k8s
 
 This example illustrates how to export trace and metric data from the OpenTelemetry-Go SDK to the OpenTelemetry Collector. From there, we bring the trace data to Jaeger and the metric data to Prometheus The complete flow is:
 ```
@@ -117,5 +117,37 @@ microk8s kubectl delete -n observability -f https://github.com/jaegertracing/jae
 microk8s kubectl delete namespaces observability
 ```
 
+## Example 6 - Opentelemetry colector docker-compose
 
+This example illustrates how to export trace and metric data from the OpenTelemetry-Go SDK to the OpenTelemetry Collector. From there, we bring the trace data to Jaeger and the metric data to Prometheus The complete flow is:
+```
+                                          -----> Jaeger (trace)
+                                          -----> zipkin (trace)
+App + SDK ---> OpenTelemetry Collector ---|
+                                          -----> Prometheus (metrics)
+```
+- Ref: https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/examples/demo
+
+- Running:
+  - Terminal 1
+    ```
+      docker-compose up
+    ```
+  - Terminal 2:
+    ```
+      go run main.go
+    ```
+- Open the metrics in Prometheus http://0.0.0.0:9090/
+![alt text](img/colector-prometheus.png "prometheus")
+- Open the trace in Zipkin http://0.0.0.0:941/
+![alt text](img/colector-zipkin.png "Zipkin")
+- Open the trace in Jaeger http://0.0.0.0:16686/
+![alt text](img/colector-jaeger.png "Jaeger")
+
+
+- Clean up
+  - Terminal 1
+    ```
+      docker-compose down
+    ```
 
