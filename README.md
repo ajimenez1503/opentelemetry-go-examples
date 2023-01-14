@@ -62,3 +62,60 @@ go run main.go
 - Open the metrics in Prometheus http://localhost:2223/metrics
 
 ![alt text](img/prometheus.png "prometheus")
+
+## Example 5 - Opentelemetry colector
+
+This example illustrates how to export trace and metric data from the OpenTelemetry-Go SDK to the OpenTelemetry Collector. From there, we bring the trace data to Jaeger and the metric data to Prometheus The complete flow is:
+```
+                                          -----> Jaeger (trace)
+App + SDK ---> OpenTelemetry Collector ---|
+                                          -----> Prometheus (metrics)
+```
+- Ref: https://github.com/open-telemetry/opentelemetry-go/tree/main/example/otel-collector
+
+- Prerequisites:
+  - MicroK8s
+    ```
+    sudo snap install microk8s --classic
+    microk8s enable dns storage
+    microk8s enable observability
+    ```
+- Running:
+  - Terminal 1
+    ```
+
+      // Create namespace 
+      microk8s kubectl apply -f k8s/namespace.yaml
+
+      // Deploy jaeger 
+      microk8s kubectl create -n observability -f https://github.com/jaegertracing/jaeger-operator/releases/download/v1.41.0/jaeger-operator.yaml
+
+      microk8s kubectl apply -f k8s/jaeger.yaml
+
+      // Deploy prometheus
+      microk8s kubectl apply -f k8s/prometheus-service.yaml   # Prometheus instance
+	    microk8s kubectl apply -f k8s/prometheus-monitor.yaml   # Service monitor
+
+      // Deploy opentelemetry colector 
+      microk8s kubectl apply -f k8s/otel-collector.yaml
+    ```
+  - Terminal 2:
+    ```
+      go run main.go
+    ```
+
+- Clean up
+```
+microk8s kubectl delete -f k8s/otel-collector.yaml
+
+microk8s kubectl delete -f k8s/prometheus-monitor.yaml
+microk8s kubectl delete -f k8s/prometheus-service.yaml
+
+microk8s kubectl delete -f k8s/jaeger.yaml
+
+microk8s kubectl delete -n observability -f https://github.com/jaegertracing/jaeger-operator/releases/download/v1.41.0/jaeger-operator.yaml
+microk8s kubectl delete namespaces observability
+```
+
+
+
